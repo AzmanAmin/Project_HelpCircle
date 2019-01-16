@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">DemoApplication</string>
+    <string name="search_title">Search..</string>
+    <string name="Open">DemoApplication</string>
+    <string name="Close">DemoApplication</string>
+    <string name="homeOpen">DemoApplication</string>
+    <string name="homeClose">DemoApplication</string>
+    <string name="friendOpen">Friends</string>
+    <string name="friendClose">Back</string>
+    <string name="MyProfile">MyProfile</string>
+    <string name="About">About</string>
+</resources>
