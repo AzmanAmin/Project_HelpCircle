@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView btn_help_here;
     private ImageView btn_panic;
 
+    //Maintain standard coding format
 
     DrawerLayout dl;
     ActionBarDrawerToggle abdt;
