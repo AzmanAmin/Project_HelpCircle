@@ -49,6 +49,13 @@
         android:dividerHeight="2dp">
 
     </ListView>
+        
+        
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/friends_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 </RelativeLayout>
     <android.support.design.widget.NavigationView
