@@ -2,7 +2,6 @@ package com.example.asus.demoapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -16,19 +15,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.example.asus.demoapplication.adapters.FriendsAdapter;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Friends extends AppCompatActivity {
 
@@ -38,10 +34,11 @@ public class Friends extends AppCompatActivity {
     Toolbar toolbar;
     MaterialSearchView searchView;
     ListView friendListView;
-    ArrayAdapter adapter;
+    //ArrayAdapter adapter;
     private RecyclerView recyclerView;
+    private ArrayList<FriendsModel> modelList = new ArrayList<>();
 
-    String [] NAME = {"Mehenika Mitu","Kazi Fazil", "Asma Ul Husna Chowdhury", "Israt Jabin", "Jarin Sharif Supty"};
+    String[] NAME = {"Mehenika Mitu", "Kazi Fazil", "Asma Ul Husna Chowdhury", "Israt Jabin", "Jarin Sharif Supty"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,41 +50,48 @@ public class Friends extends AppCompatActivity {
         //getSupportActionBar().setIcon(getDrawable(R.drawable.ic_navigation_icon_24dp));
         //toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
-
+        recyclerView = findViewById(R.id.friends_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        populateModel();
 
 
         setOptionsActivity();
-        setUpListView();
+        //setUpListView();
     }
 
-    private void populateRecycler(){
-        ArrayList<String> models = new ArrayList<>();
-        models.addAll(Arrays.asList(NAME));
+    private void populateModel() {
+        for (int i = 0; i < 10; i++) {
+            FriendsModel model = new FriendsModel(i + 1, NAME[i % 5], "0152148499" + i);
+            modelList.add(model);
+        }
 
-        FriendsAdapter adapter = new FriendsAdapter(models);
+        populateRecycler();
+    }
+
+    private void populateRecycler() {
+        FriendsAdapter adapter = new FriendsAdapter(modelList);
         recyclerView.setAdapter(adapter);
-
     }
 
-    public void setUpToolbar()
-    {
-        dl = (DrawerLayout)findViewById(R.id.dl_friends);
+    public void setUpToolbar() {
+        dl = (DrawerLayout) findViewById(R.id.dl_friends);
         toolbar = (Toolbar) findViewById(R.id.toolbar_friends);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Friends");
-        abdt = new ActionBarDrawerToggle(this,dl,toolbar,R.string.Open,R.string.Close);
-       // abdt.setDrawerIndicatorEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Friends");
+        }
+        abdt = new ActionBarDrawerToggle(this, dl, toolbar, R.string.Open, R.string.Close);
+        // abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
         abdt.syncState();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return abdt.onOptionsItemSelected(item)||super.onOptionsItemSelected(item);
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -96,61 +100,46 @@ public class Friends extends AppCompatActivity {
         searchView.setMenuItem(item);
         return true;
     }
-    public void setOptionsActivity()
-    {
 
-        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+    public void setOptionsActivity() {
+
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
 
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if(id == R.id.home)
-                {
+                if (id == R.id.home) {
                     Intent intent = new Intent(Friends.this, MainActivity.class);
-                    startActivity( intent);
-                }
-
-                else if(id == R.id.notifications)
-                {
+                    startActivity(intent);
+                } else if (id == R.id.notifications) {
                     Intent intent = new Intent(Friends.this, Notifi.class);
-                    startActivity( intent);
-                }
-
-                else if(id == R.id.searchFriends)
-                {
+                    startActivity(intent);
+                } else if (id == R.id.searchFriends) {
                     Intent intent = new Intent(Friends.this, Search_friends.class);
-                    startActivity( intent);
-                }
-
-                else if(id == R.id.friends)
-                {
-                }
-
-                else if(id == R.id.requests)
-                {
+                    startActivity(intent);
+                } else if (id == R.id.friends) {
+                } else if (id == R.id.requests) {
                     Intent intent = new Intent(Friends.this, Requests.class);
-                    startActivity( intent);
-                }
-
-                else if(id == R.id.logOut)
-                {
+                    startActivity(intent);
+                } else if (id == R.id.logOut) {
                     Intent intent = new Intent(Friends.this, LogIn.class);
-                    startActivity( intent);
+                    startActivity(intent);
                 }
                 return true;
             }
         });
     }
-    public void setUpListView()
-    {
+
+    public void setUpListView() {
         friendListView = (ListView) findViewById(R.id.friend_list_view);
-        CustomAdapter adapter =  new CustomAdapter();
+        CustomAdapter adapter = new CustomAdapter();
         friendListView.setAdapter(adapter);
 
 
     }
+
     class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -174,8 +163,8 @@ public class Friends extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
 
             view = getLayoutInflater().inflate(R.layout.friends_lv_layout, null);
-            TextView requestNametxtVw = (TextView) findViewById(R.id.friend_name);
-            Button btnConfirm = (Button) findViewById(R.id.btn_unfriend);
+            TextView requestNametxtVw = findViewById(R.id.friend_name);
+            Button btnConfirm = findViewById(R.id.btn_unfriend);
             //requestNametxtVw.setText(NAME[i]);
 
             return view;
